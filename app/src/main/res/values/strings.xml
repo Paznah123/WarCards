@@ -7,8 +7,16 @@
     <string name="TopScoresFragment">TopScoresFragment</string>
     <string name="GameFragment">GameFragment</string>
     <string name="WinnerFragment">WinnerFragment</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="timer_pref_title">Timer</string>
+    <string name="timer_pref_on">ON</string>
+    <string name="timer_pref_off">OFF</string>
+    <string name="timer_pref_time">Repeat Every</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

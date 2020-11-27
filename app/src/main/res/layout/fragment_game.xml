@@ -30,6 +30,18 @@
             android:layout_marginBottom="10dp"
             android:textSize="70sp" />
 
+        <EditText
+            android:id="@+id/main_EditTXT_left"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/main_IMG_leftPlayer"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </EditText>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -106,6 +118,18 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:textSize="70sp" />
+
+        <EditText
+            android:id="@+id/main_EditTXT_right"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/main_IMG_rightPlayer"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </EditText>
 
     </RelativeLayout>
 

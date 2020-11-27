@@ -10,49 +10,57 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.8"
         android:orientation="horizontal">
 
-        <View
-            android:id="@+id/emitter_top_left"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"/>
-
-        <View
-            android:id="@+id/emitter_top_right"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:id="@+id/winner_LBL_leftScore"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/winner_IMG_leftPlayer"
+            android:layout_alignParentStart="true"
+            android:paddingStart="100dp"
+            android:textStyle="bold"
+            android:textSize="40sp" />
 
         <ImageView
             android:id="@+id/winner_IMG_leftPlayer"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:translationX="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true">
+            android:layout_height="wrap_content"
+            android:paddingStart="100dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true">
         </ImageView>
 
         <ImageView
             android:id="@+id/winner_IMG_rightPlayer"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:translationX="-100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
+            android:layout_height="wrap_content"
+            android:paddingEnd="100dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true">
         </ImageView>
 
-
-
         <TextView
-            android:id="@+id/winner_LBL_finalScore"
+            android:id="@+id/winner_LBL_rightScore"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_above="@+id/winner_IMG_rightPlayer"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="100dp"
+            android:textStyle="bold"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/winner_LBL_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="90dp"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="40sp" />
 
@@ -62,7 +70,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.2"
         android:orientation="horizontal">
 
         <Button
@@ -76,17 +84,6 @@
             android:textStyle="bold"
             android:backgroundTint="@color/black"
             android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/winner_LBL_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="90dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="40sp" />
 
     </RelativeLayout>
 

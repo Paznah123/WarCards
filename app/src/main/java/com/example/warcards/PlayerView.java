@@ -3,6 +3,7 @@ package com.example.warcards;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class PlayerView {
     private ImageView playerImg;
     private ImageView cardImg;
     private TextView playerScore;
+    private EditText playerName;
 
     private Random rand;
     private Card currCard;
@@ -27,12 +29,13 @@ public class PlayerView {
 
     //===========================================
 
-    public PlayerView(View view, int player_IMG_ID, int card_IMG_ID, int score_LBL_ID) {
+    public PlayerView(View view, int player_IMG_ID, int card_IMG_ID, int score_LBL_ID, int player_name_ID) {
         this.view = view;
 
         this.playerImg = view.findViewById(player_IMG_ID);
         this.cardImg = view.findViewById(card_IMG_ID);
         this.playerScore = view.findViewById(score_LBL_ID);
+        this.playerName = view.findViewById(player_name_ID);
 
         this.rand = new Random();
         this.currCard = new Card();
@@ -59,6 +62,13 @@ public class PlayerView {
     }
 
     //===========================================
+
+    public void lockEditText(boolean state) {
+        playerName.setFocusable(state);
+        playerName.setEnabled(state);
+        playerName.setCursorVisible(state);
+        playerName.setFocusableInTouchMode(state);
+    }
 
     // change player img listener
     private void setImgChangeListener(){
@@ -111,5 +121,7 @@ public class PlayerView {
     public ImageView getPlayerCardView() { return cardImg; }
 
     public TextView getPlayerScoreView() { return playerScore; }
+
+    public String getPlayerName() { return playerName.getText().toString(); }
 
 }

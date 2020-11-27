@@ -1,18 +1,28 @@
 package com.example.warcards;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.plattysoft.leonids.ParticleSystem;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
@@ -23,8 +33,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        hideSystemUI();
 
         initFragment();
+
     }
 
     // ================================================================
@@ -35,9 +47,12 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     private void doFragmentTransaction(Fragment fragment, String tag, boolean addToBackStack){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.main_container, fragment, tag);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.slide_out
+                )
+                .replace(R.id.main_container, fragment, tag);
 
         if(addToBackStack)
             transaction.addToBackStack(tag);
@@ -46,6 +61,19 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     // ================================================================
+
+    @Override
+    public void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY       // Set the content to appear under the system bars so that the
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        );
+    }
 
     @Override
     public void inflateFragment(String fragmentTag, boolean addToBackStack, Bundle bundle){
@@ -65,4 +93,25 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         fragment.setArguments(bundle);
     }
 
+    // ================================================================
+
+    MediaPlayer mp;
+
+    @Override
+    public void playSound(int rawSound) {
+        mp = MediaPlayer.create(this,rawSound);
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.reset();
+                mp.release();
+                mp = null;
+            }
+        });
+        mp.start();
+    }
+
+    @Override
+    public void stopSound() {
+    }
 }

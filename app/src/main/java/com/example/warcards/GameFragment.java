@@ -66,8 +66,8 @@ public class GameFragment extends Fragment {
 
         initCardStack();
 
-        leftPlayer = new PlayerView(view, R.id.main_IMG_leftPlayer, R.id.main_IMG_leftCard, R.id.main_LBL_leftScore);
-        rightPlayer = new PlayerView(view, R.id.main_IMG_rightPlayer, R.id.main_IMG_rightCard, R.id.main_LBL_rightScore);
+        leftPlayer = new PlayerView(view, R.id.main_IMG_leftPlayer, R.id.main_IMG_leftCard, R.id.main_LBL_leftScore, R.id.main_EditTXT_left);
+        rightPlayer = new PlayerView(view, R.id.main_IMG_rightPlayer, R.id.main_IMG_rightCard, R.id.main_LBL_rightScore, R.id.main_EditTXT_right);
 
         progressBar = view.findViewById(R.id.main_progressBar);
 
@@ -75,12 +75,24 @@ public class GameFragment extends Fragment {
 
         // start and pause game by pressing play button
         main_BTN_play.setOnClickListener(v -> {
-            if (!leftPlayer.isGameRunning()) {
-                handler.postDelayed(runnable, 500);
-                lockPlayersImgListener(true);
-            } else {
-                handler.removeCallbacks(runnable);
-                lockPlayersImgListener(false);
+            if(!SettingsFragment.setTimer){
+                if(cardsDealt < 52) {
+                    iMainActivity.playSound(R.raw.card_dealing);
+                    lockPlayersImgListener(true);
+                    updateCardsAndScoreView();
+                } else {
+                    Bundle bundle = createWinnerBundle();
+                    iMainActivity.inflateFragment("WinnerFragment", true, bundle);
+                    //iMainActivity.playSound(R.raw.victory_sound);
+                }
+            } else { // when timer is on
+                if (!leftPlayer.isGameRunning()) {
+                    handler.postDelayed(runnable, 500);
+                    lockPlayersImgListener(true);
+                } else {
+                    handler.removeCallbacks(runnable);
+                    lockPlayersImgListener(false);
+                }
             }
         });
 
@@ -91,7 +103,8 @@ public class GameFragment extends Fragment {
             @Override
             public boolean onKey( View v, int keyCode,KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_BACK)
-                    handler.removeCallbacks(runnable);
+                    if(SettingsFragment.setTimer)
+                        handler.removeCallbacks(runnable);
                 return false;
             }
         });
@@ -103,7 +116,10 @@ public class GameFragment extends Fragment {
 
     void lockPlayersImgListener(boolean key){
         leftPlayer.setGameRunning(key);
+        leftPlayer.lockEditText(!key);
         rightPlayer.setGameRunning(key);
+        rightPlayer.lockEditText(!key);
+
     }
 
     ArrayList<Card> cardStack = new ArrayList<>();
@@ -124,32 +140,18 @@ public class GameFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            handler.postDelayed(runnable, 300);
+            handler.postDelayed(runnable, 1000);
             if(cardsDealt < 52) {
-                playSound(R.raw.card_dealing);
+                iMainActivity.playSound(R.raw.card_dealing);
                 updateCardsAndScoreView();
             } else {
                 Bundle bundle = createWinnerBundle();
                 iMainActivity.inflateFragment("WinnerFragment", true, bundle);
-               // playSound(R.raw.victory_sound);
+                //iMainActivity.playSound(R.raw.victory_sound);
                 handler.removeCallbacks(runnable);
             }
         }
     };
-
-    MediaPlayer mp;
-    private void playSound(int rawSound) {
-        mp = MediaPlayer.create(this.getContext(),rawSound);
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.reset();
-                mp.release();
-                mp = null;
-            }
-        });
-        mp.start();
-    }
 
     // ================================================================
 
@@ -174,10 +176,12 @@ public class GameFragment extends Fragment {
         Bundle bundle = new Bundle();
         // left player data
         bundle.putInt("leftScore", leftPlayer.getGameScore());
+        bundle.putString("leftName", leftPlayer.getPlayerName());
         bundle.putByteArray("leftImgBitmap", leftPlayer.getCurrImgBitmap());
         // right player data
         bundle.putInt("rightScore", rightPlayer.getGameScore());
         bundle.putByteArray("rightImgBitmap", rightPlayer.getCurrImgBitmap());
+        bundle.putString("rightName", rightPlayer.getPlayerName());
 
         return bundle;
     }

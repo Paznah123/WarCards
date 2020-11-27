@@ -6,14 +6,19 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.plattysoft.leonids.ParticleSystem;
+import com.plattysoft.leonids.modifiers.AlphaModifier;
+import com.plattysoft.leonids.modifiers.ScaleModifier;
 
 public class WinnerFragment extends Fragment {
 
@@ -21,13 +26,16 @@ public class WinnerFragment extends Fragment {
 
     View view;
 
-    ParticleSystem psLeft;
-    ParticleSystem psRight;
+    IMainActivity iMainActivity;
 
     ImageView leftPlayerImg;
     ImageView rightPlayerImg;
 
-    TextView winner_LBL_score;
+    String leftName;
+    String rightName;
+
+    TextView winner_LBL_leftScore;
+    TextView winner_LBL_rightScore;
     TextView winner_LBL_msg;
 
     Button restart;
@@ -39,33 +47,31 @@ public class WinnerFragment extends Fragment {
     // ================================================================
 
     @Override
-    public void onPause() {
-        super.onPause();
-        psRight.stopEmitting();
-        psLeft.stopEmitting();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_winner, container, false);
+        ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
 
-        leftScore = getArguments().getInt("leftScore", 0);
-        rightScore = getArguments().getInt("rightScore", 0);
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-        leftPlayerImg = setPlayerImg(getArguments(), R.id.winner_IMG_leftPlayer, "leftImgBitmap");
-        rightPlayerImg = setPlayerImg(getArguments(), R.id.winner_IMG_rightPlayer, "rightImgBitmap");
+                    emitParticles(Gravity.TOP,200,500);
+                }
+            });
+        }
 
-        winner_LBL_score = view.findViewById(R.id.winner_LBL_finalScore);
-        winner_LBL_score.setText("Left: " + leftScore + " | " + "Right: " + rightScore);
+        setPlayerDataInFragment("left",R.id.winner_IMG_leftPlayer,R.id.winner_LBL_leftScore);
+        setPlayerDataInFragment("right",R.id.winner_IMG_rightPlayer,R.id.winner_LBL_rightScore);
 
         winner_LBL_msg = view.findViewById(R.id.winner_LBL_msg);
         winner_LBL_msg.setText(getGameWinner(leftScore, rightScore));
 
         restart = view.findViewById(R.id.winner_BTN_restart);
-        restart.setOnClickListener(v -> getFragmentManager().popBackStack());
-
-        psRight = setParticleEmitter(R.id.emitter_top_right,180,180);
-        psLeft = setParticleEmitter(R.id.emitter_top_left,0,0);
+        restart.setOnClickListener(v -> {
+            getFragmentManager().popBackStack();
+        });
 
         return view;
     }
@@ -86,21 +92,43 @@ public class WinnerFragment extends Fragment {
         String winnerMsg;
 
         if(leftScore > rightScore)
-            winnerMsg = "Left Player won!";
+            winnerMsg = leftName +" won!";
         else if(leftScore < rightScore)
-            winnerMsg = "Right Player won!";
+            winnerMsg = rightName +" won!";
         else {
             winnerMsg = "It's A Tie!";
         }
         return winnerMsg;
     }
 
-    ParticleSystem setParticleEmitter(int emitterId, int minAngle, int maxAngle){
-        ParticleSystem particleSystem = new ParticleSystem(this.getActivity(), 80, R.drawable.animated_confetti, 10000);
-        particleSystem.setSpeedModuleAndAngleRange(0f, 0.3f, minAngle, maxAngle)
-                .setRotationSpeed(144)
-                .setAcceleration(0.000117f, 90)
-                .emit(view.findViewById(emitterId), 15);
-        return particleSystem;
+    ParticleSystem emitParticles(int gravity, int particlesPerSecond, int maxParticles){
+        ParticleSystem ps = new ParticleSystem(this.getActivity(), maxParticles, R.drawable.animated_confetti, 5000);
+                ps.setSpeedRange(0.2f, 0.35f)
+                .setRotationSpeedRange(90, 180)
+                .setInitialRotationRange(0, 180)
+                .emitWithGravity(view, gravity,particlesPerSecond,5000);
+        return ps;
+    }
+
+    void setPlayerDataInFragment(String side, int playerImgID, int playerScoreLBL_ID){
+
+        int score = getArguments().getInt(side+"Score", 0);
+        ImageView imgView = setPlayerImg(getArguments(), playerImgID, side+"ImgBitmap");
+        String name = getArguments().getString(side+"Name");
+        TextView score_LBL = view.findViewById(playerScoreLBL_ID);
+        score_LBL.setText(name +" - "+ score);
+
+        if(side.equals("left")) {
+            leftName = name;
+            leftPlayerImg = imgView;
+            leftScore = score;
+            winner_LBL_leftScore = score_LBL;
+        }
+        if(side.equals("right")) {
+            rightName = name;
+            rightPlayerImg = imgView;
+            rightScore = score;
+            winner_LBL_rightScore = score_LBL;
+        }
     }
 }
