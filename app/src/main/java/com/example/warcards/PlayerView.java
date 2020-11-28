@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class PlayerView {
@@ -29,13 +30,13 @@ public class PlayerView {
 
     //===========================================
 
-    public PlayerView(View view, int player_IMG_ID, int card_IMG_ID, int score_LBL_ID, int player_name_ID) {
+    public PlayerView(View view, HashMap<String,Integer> playerView_keys) {
         this.view = view;
 
-        this.playerImg = view.findViewById(player_IMG_ID);
-        this.cardImg = view.findViewById(card_IMG_ID);
-        this.playerScore = view.findViewById(score_LBL_ID);
-        this.playerName = view.findViewById(player_name_ID);
+        this.playerImg = view.findViewById(playerView_keys.get("image"));
+        this.playerName = view.findViewById(playerView_keys.get("name"));
+        this.cardImg = view.findViewById(playerView_keys.get("card"));
+        this.playerScore = view.findViewById(playerView_keys.get("score"));
 
         this.rand = new Random();
         this.currCard = new Card();
@@ -63,7 +64,8 @@ public class PlayerView {
 
     //===========================================
 
-    public void lockEditText(boolean state) {
+    public void lockEditText() {
+        boolean state = !gameRunning;
         playerName.setFocusable(state);
         playerName.setEnabled(state);
         playerName.setCursorVisible(state);
