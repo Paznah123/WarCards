@@ -7,12 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TopScoresFragment extends Fragment  {
 
@@ -20,7 +16,7 @@ public class TopScoresFragment extends Fragment  {
 
     View view;
 
-    ArrayList<Winner> winnersList = new ArrayList<>();
+    LinkedList<Winner> winnersList = new LinkedList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

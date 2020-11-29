@@ -1,6 +1,8 @@
 package com.example.warcards;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
@@ -13,4 +15,5 @@ public interface IMainActivity {
     void playSound(int rawSound);
 
     void stopSound();
+
 }

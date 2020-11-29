@@ -31,16 +31,15 @@
             android:textSize="70sp" />
 
         <EditText
-            android:id="@+id/main_EditTXT_left"
+            android:id="@+id/main_editTXT_left"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_below="@+id/main_IMG_leftPlayer"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:textSize="20dp">
-
-        </EditText>
+            android:textSize="20dp"
+            android:hint="Name"/>
 
     </RelativeLayout>
 
@@ -54,7 +53,6 @@
             android:id="@+id/main_IMG_leftCard"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="50dp"
@@ -80,14 +78,12 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
-            android:max="26">
-        </ProgressBar>
+            android:max="26"/>
 
         <ImageView
             android:id="@+id/main_IMG_rightCard"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="50dp"
@@ -120,16 +116,15 @@
             android:textSize="70sp" />
 
         <EditText
-            android:id="@+id/main_EditTXT_right"
+            android:id="@+id/main_editTXT_right"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_below="@+id/main_IMG_rightPlayer"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:textSize="20dp">
-
-        </EditText>
+            android:textSize="20dp"
+            android:hint="Name" />
 
     </RelativeLayout>
 

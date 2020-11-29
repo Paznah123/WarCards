@@ -1,5 +1,6 @@
 package com.example.warcards;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,21 +18,18 @@ public class SettingsFragment extends Fragment {
 
     ToggleButton timerToggle;
 
-    static boolean setTimer = false;
+    static boolean TIMER_MODE = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
+
         if(savedInstanceState != null)
-            timerToggle.setChecked(savedInstanceState.getBoolean("setTimer"));
+            timerToggle.setChecked(savedInstanceState.getBoolean("TIMER_MODE"));
+
         timerToggle = view.findViewById(R.id.settings_timer_toggle);
-        timerToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTimer = !setTimer;
-            }
-        });
+        timerToggle.setOnClickListener(v -> TIMER_MODE = !TIMER_MODE);
+
         return view;
     }
 
