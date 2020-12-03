@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/SelectorFragment"
-        android:name="com.example.warcards.SelectorFragment"
+        android:name="com.example.warcards.fragments.selector_fragment"
         android:label="@string/SelectorFragment"
         tools:layout="@layout/fragment_selector" >
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/GameFragment"
-        android:name="com.example.warcards.GameFragment"
+        android:name="com.example.warcards.fragments.game_fragment"
         android:label="@string/GameFragment"
         tools:layout="@layout/fragment_game" >
 
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/WinnerFragment"
-        android:name="com.example.warcards.WinnerFragment"
+        android:name="com.example.warcards.fragments.winner_fragment"
         android:label="@string/WinnerFragment"
         tools:layout="@layout/fragment_winner" >
 
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/TopScoresFragment"
-        android:name="com.example.warcards.TopScoresFragment"
+        android:name="com.example.warcards.fragments.topScores_fragment"
         android:label="@string/TopScoresFragment"
         tools:layout="@layout/fragment_top_scores" >
 
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/SettingsFragment"
-        android:name="com.example.warcards.SettingsFragment"
+        android:name="com.example.warcards.fragments.settings_fragment"
         android:label="@string/SettingsFragment"
         tools:layout="@layout/fragment_settings" >
 

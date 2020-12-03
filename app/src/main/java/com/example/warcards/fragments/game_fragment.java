@@ -1,8 +1,9 @@
-package com.example.warcards;
+package com.example.warcards.fragments;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -11,16 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class GameFragment extends Fragment {
+import com.example.warcards.IMainActivity;
+import com.example.warcards.objects.Dealer;
+import com.example.warcards.R;
 
-    private static final String TAG = "GameFragment";
+public class game_fragment extends Fragment {
+
+    private static final String TAG = "game_fragment";
 
     View view;
 
+    IMainActivity iMainActivity;
+
     Dealer dealer;
 
-    PlayerView leftPlayer;
-    PlayerView rightPlayer;
+    player_fragment leftPlayer;
+    player_fragment rightPlayer;
 
     //====================================================
 
@@ -35,12 +42,9 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_game, container, false);
 
-        dealer = new Dealer(view);
+        init_views();
 
-        leftPlayer = new PlayerView(view, Dealer.Side.LEFT,R.id.main_IMG_leftPlayer, R.id.main_LBL_leftScore, R.id.main_editTXT_left);
-        rightPlayer = new PlayerView(view, Dealer.Side.RIGHT,R.id.main_IMG_rightPlayer, R.id.main_LBL_rightScore, R.id.main_editTXT_right);
-
-        dealer.getPlayButton().setOnClickListener(v ->  validate_play_click() );
+        dealer.getPlayButton().setOnClickListener(v -> validate_play_click() );
 
         onBackPressedListener();
 
@@ -48,6 +52,23 @@ public class GameFragment extends Fragment {
     }
 
     //=============================================================================================================
+
+    player_fragment putPlayerInView(Dealer.Side side, int layout_id){
+        player_fragment player_fragment = new player_fragment(view, side);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.add(layout_id, player_fragment).commit();
+
+        return player_fragment;
+    }
+
+    void init_views(){
+        dealer = new Dealer(view, R.id.main_IMG_leftCard, R.id.main_IMG_rightCard, R.id.main_BTN_play, R.id.main_progressBar);
+
+        leftPlayer = putPlayerInView(Dealer.Side.LEFT,R.id.game_player_left);
+        rightPlayer = putPlayerInView(Dealer.Side.RIGHT,R.id.game_player_right);
+    }
+
+    //====================================
 
     void validate_play_click() {
         view.requestFocusFromTouch();
@@ -58,7 +79,7 @@ public class GameFragment extends Fragment {
     }
 
     void decide_mode() {
-        if (!SettingsFragment.TIMER_MODE) {
+        if (!settings_fragment.TIMER_MODE) {
             if (dealer.getCardStack().size() == 52)
                 game_ON(true);
             dealer.dealCards_toPlayers(leftPlayer,rightPlayer);
@@ -99,7 +120,7 @@ public class GameFragment extends Fragment {
     private void onBackPressedListener(){ // stops runnable calls after back is pressed
         view.setFocusableInTouchMode(true);
         view.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK && SettingsFragment.TIMER_MODE)
+            if (keyCode == KeyEvent.KEYCODE_BACK && settings_fragment.TIMER_MODE)
                 handler.removeCallbacks(runnable);
             return false;
         });

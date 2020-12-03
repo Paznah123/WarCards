@@ -1,9 +1,14 @@
-package com.example.warcards;
+package com.example.warcards.objects;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.example.warcards.IMainActivity;
+import com.example.warcards.R;
+import com.example.warcards.fragments.player_fragment;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -26,21 +31,20 @@ public class Dealer {
 
     // ================================================================
 
-    public Dealer(){
-    }
+    public Dealer(){ }
 
-    public Dealer(View view) {
+    public Dealer(View view, int leftCard_view_id, int rightCard_view_id, int playBtn_view_id, int progBar_view_id) {
         this.view = view;
 
         iMainActivity = (IMainActivity) view.getContext();
 
         this.cardStack = initCardStack();
 
-        this.left_cardImg = view.findViewById(R.id.main_IMG_leftCard);
-        this.right_cardImg = view.findViewById(R.id.main_IMG_rightCard);
+        this.left_cardImg = view.findViewById(leftCard_view_id);
+        this.right_cardImg = view.findViewById(rightCard_view_id);
 
-        this.playButton = view.findViewById(R.id.main_BTN_play);
-        this.progressBar = view.findViewById(R.id.main_progressBar);
+        this.playButton = view.findViewById(playBtn_view_id);
+        this.progressBar = view.findViewById(progBar_view_id);
     }
 
     // ================================================================
@@ -58,18 +62,18 @@ public class Dealer {
 
     // ================================================================
 
-    void dealCards_toPlayers(PlayerView leftPlayer, PlayerView rightPlayer){
+    public void dealCards_toPlayers(player_fragment leftPlayer, player_fragment rightPlayer){
         if(!cardStack.isEmpty()) {
             iMainActivity.playSound(R.raw.card_dealing);
             determine_roundWinner(leftPlayer,rightPlayer);
         } else {
             Bundle matchBundle = createWinnerBundle(leftPlayer,rightPlayer);
-            iMainActivity.inflateFragment("WinnerFragment", true, matchBundle);
+            iMainActivity.inflateFragment("winner_fragment", true, matchBundle);
             progressBar.setProgress(0);
         }
     }
 
-    private void determine_roundWinner(PlayerView leftPlayer, PlayerView rightPlayer) { // determines which player gets a point
+    private void determine_roundWinner(player_fragment leftPlayer, player_fragment rightPlayer) { // determines which player gets a point
         int leftCardVal = leftPlayer.getCard_fromDealer(this);
         int rightCardVal = rightPlayer.getCard_fromDealer(this);
 
@@ -83,7 +87,7 @@ public class Dealer {
 
     // ================================================================
 
-    void resetGameProgress(PlayerView leftPlayer, PlayerView rightPlayer) {
+    public void resetGameProgress(player_fragment leftPlayer, player_fragment rightPlayer) {
         initCardStack();
         leftPlayer.resetGameScore();
         rightPlayer.resetGameScore();
@@ -92,18 +96,15 @@ public class Dealer {
 
     // ================================================================
 
-    private Bundle createWinnerBundle(PlayerView leftPlayer, PlayerView rightPlayer) { // creates data for WinnerFragment
+    private Bundle createWinnerBundle(player_fragment leftPlayer, player_fragment rightPlayer) { // creates data for WinnerFragment
         String winner;
         Bundle bundle = new Bundle();
 
-        add_playerData_toBundle(bundle, leftPlayer);
-        add_playerData_toBundle(bundle, rightPlayer);
-
-        if(leftPlayer.getGameScore() > rightPlayer.getGameScore())
-            winner = leftPlayer.getPlayerName() + " Won!";
-        else if(leftPlayer.getGameScore() < rightPlayer.getGameScore())
-            winner = rightPlayer.getPlayerName() + " Won!";
-        else
+        if(leftPlayer.getGameScore() > rightPlayer.getGameScore()) {
+            winner = addData_toBundle(leftPlayer, bundle) + " Won!";
+        } else if(leftPlayer.getGameScore() < rightPlayer.getGameScore()) {
+            winner = addData_toBundle(rightPlayer, bundle) + " Won!";
+        } else
             winner = "It's A Tie!";
 
         bundle.putString("winner", winner);
@@ -111,12 +112,12 @@ public class Dealer {
         return bundle;
     }
 
-    private void add_playerData_toBundle(Bundle bundle, PlayerView playerView){
-        Dealer.Side side = playerView.getSide();
+    String addData_toBundle(player_fragment player, Bundle bundle){
+        bundle.putString("name",player.getPlayerName());
+        bundle.putInt("score",player.getGameScore());
+        bundle.putInt("img_id", player.getProfilePic_id());
 
-        bundle.putInt(side +"_score", playerView.getGameScore());
-        bundle.putString(side +"_name", playerView.getPlayerName());
-        bundle.putByteArray(side +"_imgBitmap", playerView.getCurrImgBitmap());
+        return player.getPlayerName();
     }
 
     // ================================================================
@@ -132,6 +133,5 @@ public class Dealer {
     public ArrayList<Card> getCardStack() { return cardStack; }
 
     public ImageView getPlayButton() { return playButton; }
-
 
 }

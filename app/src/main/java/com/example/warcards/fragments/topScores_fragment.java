@@ -1,4 +1,4 @@
-package com.example.warcards;
+package com.example.warcards.fragments;
 
 import android.os.Bundle;
 
@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.warcards.R;
+import com.example.warcards.objects.Winner;
+
 import java.util.LinkedList;
 
-public class TopScoresFragment extends Fragment  {
+public class topScores_fragment extends Fragment  {
 
-    private static final String TAG = "TopScoresFragment";
+    private static final String TAG = "topScores_Fragment";
 
     View view;
 

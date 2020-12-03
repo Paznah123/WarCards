@@ -1,4 +1,4 @@
-package com.example.warcards;
+package com.example.warcards.objects;
 
 import android.location.Location;
 
@@ -9,6 +9,8 @@ public class Winner {
     Location location;
 
     // ================================================================
+
+    public Winner() { }
 
     public Winner(String name, int score, Location location){
         this.name = name;

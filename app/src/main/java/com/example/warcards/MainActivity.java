@@ -1,20 +1,28 @@
 package com.example.warcards;
 
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.KeyEvent;
-import android.view.View;
-
-import java.util.List;
+import com.bumptech.glide.Glide;
+import com.example.warcards.fragments.game_fragment;
+import com.example.warcards.fragments.player_fragment;
+import com.example.warcards.fragments.selector_fragment;
+import com.example.warcards.fragments.settings_fragment;
+import com.example.warcards.fragments.topScores_fragment;
+import com.example.warcards.fragments.winner_fragment;
+import com.example.warcards.objects.Dealer;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     private static final String TAG = "MainActivity";
+
+    ImageView main_backGround;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +31,18 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
         hideSystemUI();
         initFragment();
+
+        main_backGround = findViewById(R.id.main_backGround);
+        Glide
+            .with(this)
+            .load(R.drawable.background)
+            .into(main_backGround);
     }
 
     // ================================================================
 
     private void initFragment(){
-        SelectorFragment fragment = new SelectorFragment();
+        selector_fragment fragment = new selector_fragment();
         doFragmentTransaction(fragment, getString(R.string.SelectorFragment), false);
     }
 
@@ -65,15 +79,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     public void inflateFragment(String fragmentTag, boolean addToBackStack, Bundle bundle){
         Fragment fragment = new Fragment();
         if(fragmentTag.equals(getString(R.string.GameFragment)))
-            fragment = new GameFragment();
+            fragment = new game_fragment();
         else if(fragmentTag.equals(getString(R.string.WinnerFragment)))
-            fragment = new WinnerFragment();
+            fragment = new winner_fragment();
         else if(fragmentTag.equals(getString(R.string.TopScoresFragment)))
-            fragment = new TopScoresFragment();
+            fragment = new topScores_fragment();
         else if(fragmentTag.equals(getString(R.string.SettingsFragment)))
-            fragment = new SettingsFragment();
+            fragment = new settings_fragment();
         else if(fragmentTag.equals(getString(R.string.SelectorFragment)))
-            fragment = new SelectorFragment();
+            fragment = new selector_fragment();
 
         doFragmentTransaction(fragment,fragmentTag,addToBackStack);
         fragment.setArguments(bundle);
@@ -86,13 +100,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void playSound(int rawSound) {
         mp = MediaPlayer.create(this,rawSound);
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.reset();
-                mp.release();
-                mp = null;
-            }
+        mp.setOnCompletionListener(mp -> {
+            mp.reset();
+            mp.release();
+            mp = null;
         });
         mp.start();
     }

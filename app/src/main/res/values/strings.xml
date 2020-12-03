@@ -2,11 +2,11 @@
     <string name="app_name">WarCards</string>
     <string name="main_activity">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="SelectorFragment">SelectorFragment</string>
-    <string name="SettingsFragment">SettingsFragment</string>
-    <string name="TopScoresFragment">TopScoresFragment</string>
-    <string name="GameFragment">GameFragment</string>
-    <string name="WinnerFragment">WinnerFragment</string>
+    <string name="SelectorFragment">selector_fragment</string>
+    <string name="SettingsFragment">settings_fragment</string>
+    <string name="TopScoresFragment">topScores_fragment</string>
+    <string name="GameFragment">game_fragment</string>
+    <string name="WinnerFragment">winner_fragment</string>
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

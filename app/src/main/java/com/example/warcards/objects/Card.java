@@ -1,6 +1,4 @@
-package com.example.warcards;
-
-import android.widget.ImageView;
+package com.example.warcards.objects;
 
 public class Card {
 
@@ -9,8 +7,7 @@ public class Card {
 
     //====================================================
 
-    public Card() {
-    }
+    public Card() { }
 
     public Card(String type, int value) {
         this.imageName= type + value;
@@ -25,16 +22,6 @@ public class Card {
 
     public String getImageName() {
         return imageName;
-    }
-
-    //====================================================
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
     }
 
 }
