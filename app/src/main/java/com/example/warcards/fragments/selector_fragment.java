@@ -2,20 +2,17 @@ package com.example.warcards.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.example.warcards.IMainActivity;
 import com.example.warcards.R;
 
 public class selector_fragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "selector_Fragment";
+    private static final String TAG = "SelectorFragment";
 
     Button startGame, topScores, settings;
 

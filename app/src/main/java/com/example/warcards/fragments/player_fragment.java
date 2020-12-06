@@ -1,27 +1,25 @@
 package com.example.warcards.fragments;
 
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.warcards.objects.Card;
 import com.example.warcards.objects.Dealer;
 import com.example.warcards.R;
-
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class player_fragment extends Fragment {
 
-    private static final String TAG = "fragment_player";
+    private static final String TAG = "player_fragment";
 
     private View view;
 
@@ -103,6 +101,15 @@ public class player_fragment extends Fragment {
     }
 
     //======================================================
+
+    public byte[] getCurrImgByteArr(){
+        img.setDrawingCacheEnabled(true);
+        Bitmap playerImgBitmap = img.getDrawingCache();
+        ByteArrayOutputStream playerImgByteArr = new ByteArrayOutputStream();
+        playerImgBitmap.compress(Bitmap.CompressFormat.PNG, 50, playerImgByteArr);
+
+        return playerImgByteArr.toByteArray();
+    }
 
     private void lockEditText() {
         boolean state = !gameRunning;

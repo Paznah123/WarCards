@@ -12,17 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.warcards.IMainActivity;
 import com.example.warcards.objects.Dealer;
 import com.example.warcards.R;
 
 public class game_fragment extends Fragment {
 
-    private static final String TAG = "game_fragment";
+    private static final String TAG = "GameFragment";
 
     View view;
-
-    IMainActivity iMainActivity;
 
     Dealer dealer;
 
@@ -53,19 +50,20 @@ public class game_fragment extends Fragment {
 
     //=============================================================================================================
 
+    void init_views(){
+        dealer = new Dealer(view, R.id.main_IMG_leftCard, R.id.main_IMG_rightCard, R.id.main_BTN_play, R.id.main_progressBar);
+
+        leftPlayer = putPlayerInView(Dealer.Side.LEFT,R.id.game_player_left);
+        rightPlayer = putPlayerInView(Dealer.Side.RIGHT,R.id.game_player_right);
+    }
+
+
     player_fragment putPlayerInView(Dealer.Side side, int layout_id){
         player_fragment player_fragment = new player_fragment(view, side);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.add(layout_id, player_fragment).commit();
 
         return player_fragment;
-    }
-
-    void init_views(){
-        dealer = new Dealer(view, R.id.main_IMG_leftCard, R.id.main_IMG_rightCard, R.id.main_BTN_play, R.id.main_progressBar);
-
-        leftPlayer = putPlayerInView(Dealer.Side.LEFT,R.id.game_player_left);
-        rightPlayer = putPlayerInView(Dealer.Side.RIGHT,R.id.game_player_right);
     }
 
     //====================================

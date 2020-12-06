@@ -4,25 +4,32 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.bumptech.glide.Glide;
 import com.example.warcards.fragments.game_fragment;
-import com.example.warcards.fragments.player_fragment;
 import com.example.warcards.fragments.selector_fragment;
 import com.example.warcards.fragments.settings_fragment;
 import com.example.warcards.fragments.topScores_fragment;
 import com.example.warcards.fragments.winner_fragment;
-import com.example.warcards.objects.Dealer;
+import com.example.warcards.objects.Winner;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     private static final String TAG = "MainActivity";
 
     ImageView main_backGround;
+
+    // ================================================================
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(winner_fragment.ps != null)
+            winner_fragment.ps.stopEmitting();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     // ================================================================
+    IMainActivity iMainActivity;
 
     @Override
     public void hideSystemUI() {
@@ -109,7 +117,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     }
 
     @Override
-    public void stopSound() {
+    public void putFragmentInView(int layout_id, Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(layout_id, fragment).commit();
+    }
+
+
+    @Override
+    public void addTo_winnersList(Winner winner, LinkedList<Winner> winners_list) {
+        winners_list.add(winner);
     }
 
 }

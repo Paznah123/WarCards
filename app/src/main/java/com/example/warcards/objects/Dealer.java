@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 import com.example.warcards.IMainActivity;
 import com.example.warcards.R;
 import com.example.warcards.fragments.player_fragment;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -115,7 +114,7 @@ public class Dealer {
     String addData_toBundle(player_fragment player, Bundle bundle){
         bundle.putString("name",player.getPlayerName());
         bundle.putInt("score",player.getGameScore());
-        bundle.putInt("img_id", player.getProfilePic_id());
+        bundle.putByteArray("img_byteArr", player.getCurrImgByteArr());
 
         return player.getPlayerName();
     }

@@ -1,21 +1,20 @@
 package com.example.warcards.objects;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 
 public class Winner {
 
     String name;
     int score;
-    Location location;
+    Bitmap imgBitmap;
 
     // ================================================================
 
-    public Winner() { }
-
-    public Winner(String name, int score, Location location){
+    public Winner(String name, int score, Bitmap imgBitmap){
         this.name = name;
         this.score = score;
-        this.location = location;
+        this.imgBitmap = imgBitmap;
     }
 
     // ================================================================
@@ -24,5 +23,6 @@ public class Winner {
 
     public int getScore() { return score; }
 
-    public Location getLocation() { return location; }
+    public Bitmap getImgBitmap() { return imgBitmap; }
+
 }

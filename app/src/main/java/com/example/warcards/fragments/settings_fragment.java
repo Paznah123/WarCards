@@ -1,18 +1,16 @@
 package com.example.warcards.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
-
 import com.example.warcards.R;
 
 public class settings_fragment extends Fragment {
 
-    private static final String TAG = "settings_Fragment";
+    private static final String TAG = "SettingsFragment";
 
     View view;
 

@@ -1,11 +1,9 @@
 package com.example.warcards.fragments;
 
-import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +13,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.warcards.objects.Dealer;
+import com.example.warcards.IMainActivity;
 import com.example.warcards.R;
-import com.google.gson.Gson;
+import com.example.warcards.objects.Winner;
 import com.plattysoft.leonids.ParticleSystem;
 
 public class winner_fragment extends Fragment {
 
-    private static final String TAG = "winner_fragment";
+    private static final String TAG = "WinnerFragment";
 
     View view;
 
@@ -31,6 +28,8 @@ public class winner_fragment extends Fragment {
     ImageView winner_img;
 
     TextView winner_LBL_msg;
+
+    public static ParticleSystem ps;
 
     Button restart;
 
@@ -47,21 +46,27 @@ public class winner_fragment extends Fragment {
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                    emitParticles(Gravity.TOP, 200, 500,5);
+                    ps = emitParticles(Gravity.TOP, 200, 500,5);
                 }
             });
         }
 
         init_views();
 
-        TypedArray images = view.getResources().obtainTypedArray(R.array.playerImages);
-        winner_img.setImageResource(images.getResourceId(getArguments().getInt("img_id"),-1));
-        winner_score.setText(""+ getArguments().getInt("score"));
+        // gets winner img bitmap from bundle
+        byte[] byteArray = getArguments().getByteArray("img_byteArr");
+        Bitmap winner_imgBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-        winner_LBL_msg.setText(getArguments().getString("winner"));
+        Winner winner = new Winner(getArguments().getString("name"), getArguments().getInt("score"),winner_imgBitmap);
+
+        setWinner_toView(winner);
+        list_fragment.winnersList.add(winner);
 
         restart = view.findViewById(R.id.winner_BTN_restart);
-        restart.setOnClickListener(v -> getFragmentManager().popBackStack());
+        restart.setOnClickListener(v -> {
+            getFragmentManager().popBackStack();
+            ps.stopEmitting();
+        });
 
         return view;
     }
@@ -74,12 +79,19 @@ public class winner_fragment extends Fragment {
         winner_LBL_msg = view.findViewById(R.id.winner_LBL_msg);
     }
 
-    void emitParticles (int gravity, int particlesPerSecond, int maxParticles, int timeInSec){
-        new ParticleSystem(this.getActivity(), maxParticles, R.drawable.animated_confetti, timeInSec*1000)
-                .setAcceleration(0.00113f, 90)
+    void setWinner_toView(Winner winner){
+        winner_img.setImageBitmap(winner.getImgBitmap());
+        winner_score.setText(""+ winner.getScore());
+        winner_LBL_msg.setText(winner.getName());
+    }
+
+    ParticleSystem emitParticles (int gravity, int particlesPerSecond, int maxParticles, int timeInSec){
+        ParticleSystem ps = new ParticleSystem(this.getActivity(), maxParticles, R.drawable.animated_confetti, timeInSec*1000);
+        ps.setAcceleration(0.00113f, 90)
                 .setSpeedByComponentsRange(0f, 0f, 0.05f, 0.1f)
                 .setFadeOut(10, new AccelerateInterpolator())
                 .emitWithGravity(view, gravity, particlesPerSecond);
+        return ps;
     }
 
 }
