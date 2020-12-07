@@ -5,9 +5,10 @@ import android.location.Location;
 
 public class Winner {
 
-    String name;
-    int score;
-    Bitmap imgBitmap;
+    private String name;
+    private int score;
+    private Bitmap imgBitmap;
+    private Location location;
 
     // ================================================================
 
@@ -24,5 +25,8 @@ public class Winner {
     public int getScore() { return score; }
 
     public Bitmap getImgBitmap() { return imgBitmap; }
+
+    public Location getLocation() { return location; }
+
 
 }

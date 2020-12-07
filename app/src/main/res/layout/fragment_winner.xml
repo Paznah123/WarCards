@@ -1,61 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".fragments.winner_fragment">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5">
+    <TextView
+        android:id="@+id/winner_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/winner_img"
+        android:layout_centerHorizontal="true"
+        android:textSize="50dp"
+        android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/winner_LBL_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingBottom="90dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="40sp" />
+    <ImageView
+        android:id="@+id/winner_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
-        <Button
-            android:id="@+id/winner_BTN_restart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:text="Restart"
-            android:textStyle="bold"
-            android:backgroundTint="@color/black"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/winner_LBL_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/winner_img"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="40sp" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5">
-
-        <TextView
-            android:id="@+id/winner_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/winner_img"
-            android:textSize="50dp"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:id="@+id/winner_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

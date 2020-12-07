@@ -1,4 +1,4 @@
-package com.example.warcards;
+package com.example.warcards.callBacks;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -12,9 +12,5 @@ public interface IMainActivity {
     void playSound(int rawSound);
 
     void inflateFragment(String fragmentTag, boolean addToBackStack, Bundle bundle);
-
-    void putFragmentInView(int layout_id, Fragment fragment);
-
-    void addTo_winnersList(Winner winner, LinkedList<Winner> winners_list);
 
 }

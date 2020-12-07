@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.warcards.MainActivity;
 import com.example.warcards.objects.Dealer;
 import com.example.warcards.R;
 
@@ -19,12 +20,12 @@ public class game_fragment extends Fragment {
 
     private static final String TAG = "GameFragment";
 
-    View view;
+    private View view;
 
-    Dealer dealer;
+    private Dealer dealer;
 
-    player_fragment leftPlayer;
-    player_fragment rightPlayer;
+    private player_fragment leftPlayer;
+    private player_fragment rightPlayer;
 
     //====================================================
 
@@ -77,7 +78,7 @@ public class game_fragment extends Fragment {
     }
 
     void decide_mode() {
-        if (!settings_fragment.TIMER_MODE) {
+        if (!selector_fragment.TIMER_MODE) {
             if (dealer.getCardStack().size() == 52)
                 game_ON(true);
             dealer.dealCards_toPlayers(leftPlayer,rightPlayer);
@@ -118,7 +119,7 @@ public class game_fragment extends Fragment {
     private void onBackPressedListener(){ // stops runnable calls after back is pressed
         view.setFocusableInTouchMode(true);
         view.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK && settings_fragment.TIMER_MODE)
+            if (keyCode == KeyEvent.KEYCODE_BACK && selector_fragment.TIMER_MODE)
                 handler.removeCallbacks(runnable);
             return false;
         });

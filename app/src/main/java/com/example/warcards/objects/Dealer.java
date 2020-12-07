@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.example.warcards.IMainActivity;
+import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.R;
 import com.example.warcards.fragments.player_fragment;
 
@@ -30,14 +30,12 @@ public class Dealer {
 
     // ================================================================
 
-    public Dealer(){ }
-
     public Dealer(View view, int leftCard_view_id, int rightCard_view_id, int playBtn_view_id, int progBar_view_id) {
         this.view = view;
 
         iMainActivity = (IMainActivity) view.getContext();
 
-        this.cardStack = initCardStack();
+        initCardStack(cardStack);
 
         this.left_cardImg = view.findViewById(leftCard_view_id);
         this.right_cardImg = view.findViewById(rightCard_view_id);
@@ -48,7 +46,7 @@ public class Dealer {
 
     // ================================================================
 
-    private ArrayList<Card> initCardStack() {  // initializes the deck
+    void initCardStack(ArrayList<Card> cardStack) {  // initializes the deck
         for (int i =  1 ; i <= 4 ; i++) { // gets type name from arrays.xml
             int typeId = view.getResources().obtainTypedArray(R.array.names).getResourceId(i, 0);
             String type = view.getResources().getResourceEntryName(typeId);
@@ -56,7 +54,6 @@ public class Dealer {
                 cardStack.add(new Card(type, j));
             }
         }
-        return cardStack;
     }
 
     // ================================================================
@@ -72,7 +69,7 @@ public class Dealer {
         }
     }
 
-    private void determine_roundWinner(player_fragment leftPlayer, player_fragment rightPlayer) { // determines which player gets a point
+    void determine_roundWinner(player_fragment leftPlayer, player_fragment rightPlayer) { // determines which player gets a point
         int leftCardVal = leftPlayer.getCard_fromDealer(this);
         int rightCardVal = rightPlayer.getCard_fromDealer(this);
 
@@ -87,7 +84,7 @@ public class Dealer {
     // ================================================================
 
     public void resetGameProgress(player_fragment leftPlayer, player_fragment rightPlayer) {
-        initCardStack();
+        initCardStack(cardStack);
         leftPlayer.resetGameScore();
         rightPlayer.resetGameScore();
         progressBar.setProgress(0);
@@ -95,18 +92,15 @@ public class Dealer {
 
     // ================================================================
 
-    private Bundle createWinnerBundle(player_fragment leftPlayer, player_fragment rightPlayer) { // creates data for WinnerFragment
-        String winner;
+    Bundle createWinnerBundle(player_fragment leftPlayer, player_fragment rightPlayer) { // creates data for WinnerFragment
         Bundle bundle = new Bundle();
 
-        if(leftPlayer.getGameScore() > rightPlayer.getGameScore()) {
-            winner = addData_toBundle(leftPlayer, bundle) + " Won!";
-        } else if(leftPlayer.getGameScore() < rightPlayer.getGameScore()) {
-            winner = addData_toBundle(rightPlayer, bundle) + " Won!";
-        } else
-            winner = "It's A Tie!";
-
-        bundle.putString("winner", winner);
+        if(leftPlayer.getGameScore() > rightPlayer.getGameScore())
+            addData_toBundle(leftPlayer, bundle);
+        else if(leftPlayer.getGameScore() < rightPlayer.getGameScore())
+            addData_toBundle(rightPlayer, bundle);
+        else
+            bundle.putString("winner", "It's A Tie!");
 
         return bundle;
     }

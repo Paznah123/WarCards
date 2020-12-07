@@ -17,17 +17,17 @@ import com.example.warcards.objects.WinnersListAdapter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class list_fragment extends Fragment {
+public class list_fragment extends Fragment { // add winner list adding logic by score
 
     private static final String TAG = "list_fragment";
 
-    View view;
+    private View view;
+
+    private WinnersListAdapter winners_list_adapter;
+
+    private RecyclerView winners_list_layout;
 
     static LinkedList<Winner> winnersList = new LinkedList<>();
-
-    WinnersListAdapter winners_list_adapter;
-
-    RecyclerView winners_list_layout;
 
     // ================================================================
 
@@ -51,7 +51,5 @@ public class list_fragment extends Fragment {
         winners_list_layout = view.findViewById(R.id.topScores_recyclerView);
     }
 
-    public LinkedList<Winner> getWinnersList() {
-        return winnersList;
-    }
+    public RecyclerView getWinners_list_layout() { return winners_list_layout; }
 }

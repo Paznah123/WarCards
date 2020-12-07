@@ -33,15 +33,31 @@
                 android:text="Top Scores">
             </Button>
 
-            <Button
-                android:id="@+id/settings_button"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/topScores_button">
+
+            <TextView
+                android:id="@+id/selector_LBL_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:padding="15dp"
-                android:text="Settings"
-                android:layout_below="@+id/topScores_button">
-            </Button>
+                android:layout_marginEnd="10dp"
+                android:text="Timer"
+                android:textStyle="bold"
+                android:textSize="25dp">
+            </TextView>
+
+            <ToggleButton
+                android:id="@+id/selector_timer_toggle"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:textSize="20dp">
+            </ToggleButton>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

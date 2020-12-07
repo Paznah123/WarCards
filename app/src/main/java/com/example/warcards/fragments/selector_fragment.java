@@ -7,32 +7,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.example.warcards.IMainActivity;
+import android.widget.ToggleButton;
+import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.R;
 
 public class selector_fragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "SelectorFragment";
 
-    Button startGame, topScores, settings;
+    private View view;
+
+    private Button startGame, topScores;
 
     private IMainActivity iMainActivity;
 
+    private ToggleButton timerToggle;
+
+    public static boolean TIMER_MODE = false;
+
+    // ================================================================
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_selector, container, false);
+        view = inflater.inflate(R.layout.fragment_selector, container, false);
 
-        startGame = view.findViewById(R.id.game_button);
-        topScores = view.findViewById(R.id.topScores_button);
-        settings = view.findViewById(R.id.settings_button);
+        if(savedInstanceState != null)
+            timerToggle.setChecked(savedInstanceState.getBoolean("TIMER_MODE"));
 
-        startGame.setOnClickListener(this);
-        topScores.setOnClickListener(this);
-        settings.setOnClickListener(this);
+        findViews();
+        setListeners();
 
         return view;
     }
 
+    void findViews(){
+        startGame = view.findViewById(R.id.game_button);
+        topScores = view.findViewById(R.id.topScores_button);
+        timerToggle = view.findViewById(R.id.selector_timer_toggle);
+    }
+
+    void setListeners(){
+        startGame.setOnClickListener(this);
+        topScores.setOnClickListener(this);
+        timerToggle.setOnClickListener(v -> TIMER_MODE = !TIMER_MODE);
+
+    }
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -41,10 +60,6 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.topScores_button:
                 iMainActivity.inflateFragment(getString(R.string.TopScoresFragment), true, null);
-                break;
-            case R.id.settings_button:
-                iMainActivity.inflateFragment(getString(R.string.SettingsFragment), true, null);
-                break;
         }
     }
 

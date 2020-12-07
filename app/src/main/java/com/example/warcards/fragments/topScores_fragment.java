@@ -7,15 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.warcards.R;
+import com.example.warcards.callBacks.mapCallBack;
+import com.example.warcards.objects.Winner;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class topScores_fragment extends Fragment  {
+public class topScores_fragment extends Fragment {
 
     private static final String TAG = "TopScoresFragment";
 
-    View view;
+    private View view;
 
-    map_fragment map = new map_fragment();
-    list_fragment winners_list = new list_fragment();
+    private map_fragment map = new map_fragment();
+    private list_fragment list = new list_fragment();
 
     // ================================================================
 
@@ -25,7 +31,7 @@ public class topScores_fragment extends Fragment  {
         view = inflater.inflate(R.layout.fragment_top_scores, container, false);
 
         putFragmentInView(R.id.map_right, map);
-        putFragmentInView(R.id.list_left, winners_list);
+        putFragmentInView(R.id.list_left, list);
 
         return view;
     }
@@ -37,5 +43,4 @@ public class topScores_fragment extends Fragment  {
         transaction.add(layout_id, fragment).commit();
     }
 
-    public list_fragment getWinners_list() { return winners_list; }
 }

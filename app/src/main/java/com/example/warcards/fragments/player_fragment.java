@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.warcards.objects.Card;
-import com.example.warcards.objects.Dealer;
 import com.example.warcards.R;
+import com.example.warcards.objects.Dealer;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -94,7 +97,7 @@ public class player_fragment extends Fragment {
 
         // sets new card in imageView
         int img_id = view.getResources().getIdentifier("card_"+ randCard.getImageName(), "drawable", view.getContext().getPackageName());
-        dealer.getCardView_bySide(side).setImageResource(img_id);
+        Glide.with(this).load(img_id).into(dealer.getCardView_bySide(side));
         currCard = randCard;
 
         return currCard.getValue();
@@ -102,6 +105,7 @@ public class player_fragment extends Fragment {
 
     //======================================================
 
+    // gets img bitmap
     public byte[] getCurrImgByteArr(){
         img.setDrawingCacheEnabled(true);
         Bitmap playerImgBitmap = img.getDrawingCache();
@@ -111,6 +115,7 @@ public class player_fragment extends Fragment {
         return playerImgByteArr.toByteArray();
     }
 
+    // locks changes to img and name
     private void lockEditText() {
         boolean state = !gameRunning;
         name.setFocusable(state);
@@ -119,6 +124,7 @@ public class player_fragment extends Fragment {
         name.setFocusableInTouchMode(state);
     }
 
+    // locks changes to img and name
     public void setGameRunning(boolean gameRunning) {
         this.gameRunning = gameRunning;
         lockEditText();
@@ -130,11 +136,6 @@ public class player_fragment extends Fragment {
 
     public void incrementScore() { this.score.setText("" + ++gameScore); }
 
-    public void setName(String name) {
-        this.name = new EditText(view.getContext());
-        this.name.setText(name);
-    }
-
     //======================================================
 
     public String getPlayerName() { return name.getText().toString(); }
@@ -143,5 +144,4 @@ public class player_fragment extends Fragment {
 
     public boolean isGameRunning() { return gameRunning; }
 
-    public int getProfilePic_id() { return playerImgArrIndex; }
 }
