@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ToggleButton;
 import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.R;
+import com.example.warcards.objects.SharedPrefs;
 
 public class selector_fragment extends Fragment implements View.OnClickListener {
 
@@ -23,7 +24,7 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
 
     private ToggleButton timerToggle;
 
-    public static boolean TIMER_MODE = false;
+    //public static boolean TIMER_MODE = false;
 
     // ================================================================
 
@@ -49,7 +50,7 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
     void setListeners(){
         startGame.setOnClickListener(this);
         topScores.setOnClickListener(this);
-        timerToggle.setOnClickListener(v -> TIMER_MODE = !TIMER_MODE);
+        timerToggle.setOnClickListener(v -> SharedPrefs.getInstance().reverseTimerMode());
 
     }
     @Override

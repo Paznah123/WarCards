@@ -144,4 +144,5 @@ public class player_fragment extends Fragment {
 
     public boolean isGameRunning() { return gameRunning; }
 
+    public int getImgIndex() { return playerImgArrIndex-1; }
 }

@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.warcards.R;
+import com.example.warcards.objects.SharedPrefs;
 import com.example.warcards.objects.Winner;
 import com.example.warcards.objects.WinnersListAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -27,8 +31,6 @@ public class list_fragment extends Fragment { // add winner list adding logic by
 
     private RecyclerView winners_list_layout;
 
-    static LinkedList<Winner> winnersList = new LinkedList<>();
-
     // ================================================================
 
     @Override
@@ -39,7 +41,7 @@ public class list_fragment extends Fragment { // add winner list adding logic by
         findViews();
 
         winners_list_layout.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        winners_list_adapter = new WinnersListAdapter(winnersList);
+        winners_list_adapter = new WinnersListAdapter(SharedPrefs.getWinnersList());
         winners_list_layout.setAdapter(winners_list_adapter);
 
         return view;
@@ -51,5 +53,4 @@ public class list_fragment extends Fragment { // add winner list adding logic by
         winners_list_layout = view.findViewById(R.id.topScores_recyclerView);
     }
 
-    public RecyclerView getWinners_list_layout() { return winners_list_layout; }
 }

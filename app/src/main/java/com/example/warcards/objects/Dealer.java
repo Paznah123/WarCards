@@ -108,7 +108,7 @@ public class Dealer {
     String addData_toBundle(player_fragment player, Bundle bundle){
         bundle.putString("name",player.getPlayerName());
         bundle.putInt("score",player.getGameScore());
-        bundle.putByteArray("img_byteArr", player.getCurrImgByteArr());
+        bundle.putInt("imgIndex", player.getImgIndex());
 
         return player.getPlayerName();
     }

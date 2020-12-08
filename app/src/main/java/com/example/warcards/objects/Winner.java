@@ -7,15 +7,15 @@ public class Winner {
 
     private String name;
     private int score;
-    private Bitmap imgBitmap;
+    private int imgIndex;
     private Location location;
 
     // ================================================================
 
-    public Winner(String name, int score, Bitmap imgBitmap){
+    public Winner(String name, int score, int imgIndex){
         this.name = name;
         this.score = score;
-        this.imgBitmap = imgBitmap;
+        this.imgIndex = imgIndex;
     }
 
     // ================================================================
@@ -24,7 +24,7 @@ public class Winner {
 
     public int getScore() { return score; }
 
-    public Bitmap getImgBitmap() { return imgBitmap; }
+    public int getImgIndex() { return imgIndex; }
 
     public Location getLocation() { return location; }
 

@@ -1,5 +1,6 @@
 package com.example.warcards.fragments;
 
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.warcards.R;
+import com.example.warcards.objects.SharedPrefs;
 import com.example.warcards.objects.Winner;
 
 public class winner_fragment extends Fragment {
@@ -25,11 +27,15 @@ public class winner_fragment extends Fragment {
 
     private TextView winner_LBL_msg;
 
+    TypedArray profilePics;
+
     // ================================================================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_winner, container, false);
+
+        profilePics = view.getResources().obtainTypedArray(R.array.playerImages);
 
         winnerMsg = getArguments().getString("winner");
 
@@ -50,24 +56,24 @@ public class winner_fragment extends Fragment {
     // ================================================================
 
     void addWinner_toList(){
-        if(winnerMsg != "It's A Tie!") { // if a winner exists
+        if(winnerMsg != "It's A Tie!") { // if winner exists
             Winner winner = getWinnerFromBundle();
             setWinner_toView(winner);
-            list_fragment.winnersList.add(winner);
+            SharedPrefs.getInstance().addWinner(winner);
         } else
             winner_LBL_msg.setText(winnerMsg);
     }
 
     Winner getWinnerFromBundle(){
-        // gets winner img bitmap from bundle
-        byte[] byteArray = getArguments().getByteArray("img_byteArr");
-        Bitmap winner_imgBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        String name = getArguments().getString("name");
+        int score = getArguments().getInt("score");
+        int imgIndex = getArguments().getInt("imgIndex");
 
-        return new Winner(getArguments().getString("name"), getArguments().getInt("score"), winner_imgBitmap);
+        return new Winner(name, score, imgIndex);
     }
 
     void setWinner_toView(Winner winner){
-        winner_img.setImageBitmap(winner.getImgBitmap());
+        winner_img.setImageResource(profilePics.getResourceId(winner.getImgIndex(),-1));
         winner_score.setText("" + winner.getScore());
         winner_LBL_msg.setText(winner.getName() + " Won!");
     }
