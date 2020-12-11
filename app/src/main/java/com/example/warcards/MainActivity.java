@@ -3,7 +3,6 @@ package com.example.warcards;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -31,8 +30,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private MediaPlayer mp;
 
     private ParticleSystem ps;
-
-    private Location myLocation = new Location("G");
 
     // ================================================================
 

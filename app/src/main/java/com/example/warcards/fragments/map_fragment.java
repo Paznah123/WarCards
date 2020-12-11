@@ -59,7 +59,7 @@ public class map_fragment extends Fragment  {
 
         @Override
         public LatLng latLngCreator(Winner winner){
-            return new LatLng(winner.getLocation().getLatitude(),winner.getLocation().getLongitude());
+            return new LatLng(winner.getLatitude(),winner.getLongitude());
         }
     };
 }

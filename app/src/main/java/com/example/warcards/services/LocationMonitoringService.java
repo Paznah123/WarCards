@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -29,7 +28,7 @@ public class LocationMonitoringService extends Service implements GoogleApiClien
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(App.getAppContext(),"service started",Toast.LENGTH_SHORT).show();
+       App.toast("SERVICE STARTED");
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -66,6 +65,7 @@ public class LocationMonitoringService extends Service implements GoogleApiClien
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
+            App.toast("LOCATION FOUND");
             App.updateLocation(location);
         }
     }

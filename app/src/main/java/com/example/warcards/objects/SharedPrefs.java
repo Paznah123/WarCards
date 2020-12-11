@@ -15,7 +15,6 @@ public class SharedPrefs {
 
     public interface KEYS {
         String WINNERS_LIST = "WINNERS_LIST";
-        String LOCATION_LIST = "LOCATION_LIST";
         String WINNER = "WINNER";
         String PLAYER_NAME = "PLAYER_NAME";
         String PLAYER_SCORE = "PLAYER_SCORE";

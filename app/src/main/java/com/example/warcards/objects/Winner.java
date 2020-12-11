@@ -7,7 +7,8 @@ public class Winner {
     private String name;
     private int score;
     private int imgIndex;
-    private Location location;
+    private double latitude;
+    private double longitude;
     private String date;
 
     // ================================================================
@@ -16,7 +17,8 @@ public class Winner {
         this.name = name;
         this.score = score;
         this.imgIndex = imgIndex;
-        this.location = location;
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
         this.date = date;
     }
 
@@ -24,13 +26,14 @@ public class Winner {
 
     public String getName() { return name; }
 
+    public String getDate() { return date; }
+
     public int getScore() { return score; }
 
     public int getImgIndex() { return imgIndex; }
 
-    public Location getLocation() { return location; }
+    public double getLatitude() { return latitude; }
 
-    public String getDate() { return date; }
+    public double getLongitude() { return longitude; }
 
-    public void setLocation(Location location) { this.location = location; }
 }

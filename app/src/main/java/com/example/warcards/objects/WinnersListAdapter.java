@@ -5,12 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.warcards.App;
 import com.example.warcards.R;
 import com.example.warcards.fragments.map_fragment;
+
 import java.util.LinkedList;
 
 public class WinnersListAdapter extends RecyclerView.Adapter<WinnersListAdapter.WinnersListViewHolder> {
@@ -43,7 +45,6 @@ public class WinnersListAdapter extends RecyclerView.Adapter<WinnersListAdapter.
         holder.winner_score.setText("Score - " + winner.getScore());
         holder.winner_date.setText(winner.getDate());
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(App.getAppContext(),winner.getLocation().toString(),Toast.LENGTH_SHORT).show();
             map_fragment.getMapCallBack().displayLocationOnMap(winner);
         });
     }
