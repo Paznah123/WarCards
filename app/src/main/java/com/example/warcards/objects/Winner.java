@@ -1,6 +1,5 @@
 package com.example.warcards.objects;
 
-import android.graphics.Bitmap;
 import android.location.Location;
 
 public class Winner {
@@ -9,13 +8,16 @@ public class Winner {
     private int score;
     private int imgIndex;
     private Location location;
+    private String date;
 
     // ================================================================
 
-    public Winner(String name, int score, int imgIndex){
+    public Winner(String name, int score, int imgIndex, Location location, String date){
         this.name = name;
         this.score = score;
         this.imgIndex = imgIndex;
+        this.location = location;
+        this.date = date;
     }
 
     // ================================================================
@@ -28,5 +30,7 @@ public class Winner {
 
     public Location getLocation() { return location; }
 
+    public String getDate() { return date; }
 
+    public void setLocation(Location location) { this.location = location; }
 }

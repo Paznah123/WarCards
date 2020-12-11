@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.R;
+import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.fragments.player_fragment;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class Dealer {
 
     private ProgressBar progressBar;
 
-    public enum Side { LEFT , RIGHT };
+    public enum Side { LEFT , RIGHT }
 
     // ================================================================
 
@@ -58,10 +58,10 @@ public class Dealer {
 
     // ================================================================
 
-    public void dealCards_toPlayers(player_fragment leftPlayer, player_fragment rightPlayer){
+    public void dealCardsToPlayers(player_fragment leftPlayer, player_fragment rightPlayer){
         if(!cardStack.isEmpty()) {
             iMainActivity.playSound(R.raw.card_dealing);
-            determine_roundWinner(leftPlayer,rightPlayer);
+            determineRoundWinner(leftPlayer,rightPlayer);
         } else {
             Bundle matchBundle = createWinnerBundle(leftPlayer,rightPlayer);
             iMainActivity.inflateFragment("winner_fragment", true, matchBundle);
@@ -69,7 +69,8 @@ public class Dealer {
         }
     }
 
-    void determine_roundWinner(player_fragment leftPlayer, player_fragment rightPlayer) { // determines which player gets a point
+    // determines which player gets a point
+    void determineRoundWinner(player_fragment leftPlayer, player_fragment rightPlayer) {
         int leftCardVal = leftPlayer.getCard_fromDealer(this);
         int rightCardVal = rightPlayer.getCard_fromDealer(this);
 
@@ -92,25 +93,24 @@ public class Dealer {
 
     // ================================================================
 
-    Bundle createWinnerBundle(player_fragment leftPlayer, player_fragment rightPlayer) { // creates data for WinnerFragment
+    // creates data for WinnerFragment
+    Bundle createWinnerBundle(player_fragment leftPlayer, player_fragment rightPlayer) {
         Bundle bundle = new Bundle();
 
         if(leftPlayer.getGameScore() > rightPlayer.getGameScore())
-            addData_toBundle(leftPlayer, bundle);
+            addDataToBundle(leftPlayer, bundle);
         else if(leftPlayer.getGameScore() < rightPlayer.getGameScore())
-            addData_toBundle(rightPlayer, bundle);
+            addDataToBundle(rightPlayer, bundle);
         else
-            bundle.putString("winner", "It's A Tie!");
+            bundle.putString(SharedPrefs.KEYS.WINNER, "It's A Tie!");
 
         return bundle;
     }
 
-    String addData_toBundle(player_fragment player, Bundle bundle){
-        bundle.putString("name",player.getPlayerName());
-        bundle.putInt("score",player.getGameScore());
-        bundle.putInt("imgIndex", player.getImgIndex());
-
-        return player.getPlayerName();
+    void addDataToBundle(player_fragment player, Bundle bundle){
+        bundle.putString(SharedPrefs.KEYS.PLAYER_NAME,player.getPlayerName());
+        bundle.putInt(SharedPrefs.KEYS.PLAYER_SCORE,player.getGameScore());
+        bundle.putInt(SharedPrefs.KEYS.PLAYER_IMG_INDEX, player.getImgIndex());
     }
 
     // ================================================================

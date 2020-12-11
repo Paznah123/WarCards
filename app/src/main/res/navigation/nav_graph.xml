@@ -9,7 +9,7 @@
         android:id="@+id/SelectorFragment"
         android:name="com.example.warcards.fragments.selector_fragment"
         android:label="@string/SelectorFragment"
-        tools:layout="@layout/fragment_selector" >
+        tools:layout="@layout/fragment_selector">
 
         <action
             android:id="@+id/action_SelectorFragment_to_GameFragment"
@@ -26,7 +26,7 @@
         android:id="@+id/GameFragment"
         android:name="com.example.warcards.fragments.game_fragment"
         android:label="@string/GameFragment"
-        tools:layout="@layout/fragment_game" >
+        tools:layout="@layout/fragment_game">
 
         <action
             android:id="@+id/action_GameFragment_to_WinnerFragment"
@@ -37,7 +37,7 @@
         android:id="@+id/WinnerFragment"
         android:name="com.example.warcards.fragments.winner_fragment"
         android:label="@string/WinnerFragment"
-        tools:layout="@layout/fragment_winner" >
+        tools:layout="@layout/fragment_winner">
 
         <action
             android:id="@+id/action_WinnerFragment_to_SelectorFragment"
@@ -48,7 +48,7 @@
         android:id="@+id/TopScoresFragment"
         android:name="com.example.warcards.fragments.topScores_fragment"
         android:label="@string/TopScoresFragment"
-        tools:layout="@layout/fragment_top_scores" >
+        tools:layout="@layout/fragment_top_scores">
 
         <action
             android:id="@+id/action_TopScoresFragment_to_SelectorFragment"
@@ -59,11 +59,31 @@
         android:id="@+id/SettingsFragment"
         android:name="com.example.warcards.fragments.settings_fragment"
         android:label="@string/SettingsFragment"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
 
         <action
             android:id="@+id/action_SettingsFragment_to_SelectorFragment"
             app:destination="@id/SelectorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.warcards.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.example.warcards.SecondFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
 
 </navigation>

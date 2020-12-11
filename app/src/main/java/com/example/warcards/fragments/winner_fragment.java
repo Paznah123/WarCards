@@ -1,20 +1,20 @@
 package com.example.warcards.fragments;
 
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
+import com.example.warcards.App;
 import com.example.warcards.R;
 import com.example.warcards.objects.SharedPrefs;
 import com.example.warcards.objects.Winner;
 
-public class winner_fragment extends Fragment {
+public class winner_fragment extends Fragment{
 
     private static final String TAG = "WinnerFragment";
 
@@ -27,27 +27,23 @@ public class winner_fragment extends Fragment {
 
     private TextView winner_LBL_msg;
 
-    TypedArray profilePics;
-
     // ================================================================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_winner, container, false);
 
-        profilePics = view.getResources().obtainTypedArray(R.array.playerImages);
+        winnerMsg = getArguments().getString(SharedPrefs.KEYS.WINNER);
 
-        winnerMsg = getArguments().getString("winner");
-
-        init_views();
-        addWinner_toList();
+        findViews();
+        addWinnerToList();
 
         return view;
     }
 
     // ================================================================
 
-    void init_views () {
+    void findViews() {
         winner_img = view.findViewById(R.id.winner_img);
         winner_score = view.findViewById(R.id.winner_score);
         winner_LBL_msg = view.findViewById(R.id.winner_LBL_msg);
@@ -55,27 +51,29 @@ public class winner_fragment extends Fragment {
 
     // ================================================================
 
-    void addWinner_toList(){
-        if(winnerMsg != "It's A Tie!") { // if winner exists
+    void addWinnerToList() {
+        if (winnerMsg != "It's A Tie!") { // if winner exists
             Winner winner = getWinnerFromBundle();
-            setWinner_toView(winner);
+            setWinnerToView(winner);
             SharedPrefs.getInstance().addWinner(winner);
         } else
             winner_LBL_msg.setText(winnerMsg);
     }
 
-    Winner getWinnerFromBundle(){
-        String name = getArguments().getString("name");
-        int score = getArguments().getInt("score");
-        int imgIndex = getArguments().getInt("imgIndex");
+    private Winner getWinnerFromBundle() {
+        String name = getArguments().getString(SharedPrefs.KEYS.PLAYER_NAME);
+        int score = getArguments().getInt(SharedPrefs.KEYS.PLAYER_SCORE);
+        int imgIndex = getArguments().getInt(SharedPrefs.KEYS.PLAYER_IMG_INDEX);
 
-        return new Winner(name, score, imgIndex);
+        return new Winner(name, score, imgIndex, App.getLocation(), App.getDate());
     }
 
-    void setWinner_toView(Winner winner){
-        winner_img.setImageResource(profilePics.getResourceId(winner.getImgIndex(),-1));
+    private void setWinnerToView(Winner winner) {
+        winner_img.setImageResource(App.getProfilePics().getResourceId(winner.getImgIndex(), -1));
         winner_score.setText("" + winner.getScore());
         winner_LBL_msg.setText(winner.getName() + " Won!");
     }
+
+// =============================================================
 
 }

@@ -1,22 +1,16 @@
 package com.example.warcards.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.warcards.R;
-import com.example.warcards.callBacks.mapCallBack;
-import com.example.warcards.objects.Winner;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class topScores_fragment extends Fragment {
-
-    private static final String TAG = "TopScoresFragment";
 
     private View view;
 

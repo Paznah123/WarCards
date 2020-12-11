@@ -1,26 +1,21 @@
 package com.example.warcards.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.example.warcards.MainActivity;
-import com.example.warcards.callBacks.IMainActivity;
-import com.example.warcards.objects.Dealer;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import com.example.warcards.R;
+import com.example.warcards.objects.Dealer;
 import com.example.warcards.objects.SharedPrefs;
+import com.example.warcards.services.LocationMonitoringService;
 
 public class game_fragment extends Fragment {
-
-    private static final String TAG = "GameFragment";
 
     private View view;
 
@@ -30,6 +25,12 @@ public class game_fragment extends Fragment {
     private player_fragment rightPlayer;
 
     //====================================================
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().stopService(new Intent(getActivity(), LocationMonitoringService.class));
+    }
 
     @Override
     public void onResume() { // resets any game progress
@@ -42,9 +43,11 @@ public class game_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_game, container, false);
 
+        getActivity().startService(new Intent(getActivity(), LocationMonitoringService.class));
+
         init_views();
 
-        dealer.getPlayButton().setOnClickListener(v -> validate_play_click() );
+        dealer.getPlayButton().setOnClickListener(v -> { validate_play_click(); });
 
         onBackPressedListener();
 
@@ -60,7 +63,7 @@ public class game_fragment extends Fragment {
         rightPlayer = putPlayerInView(Dealer.Side.RIGHT,R.id.game_player_right);
     }
 
-
+    // adds player fragment to left and right side
     player_fragment putPlayerInView(Dealer.Side side, int layout_id){
         player_fragment player_fragment = new player_fragment(view, side);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -71,7 +74,7 @@ public class game_fragment extends Fragment {
 
     //====================================
 
-    void validate_play_click() {
+    void validate_play_click() { // checks if user entered names
         view.requestFocusFromTouch();
         if(!leftPlayer.getPlayerName().isEmpty() && !rightPlayer.getPlayerName().isEmpty())
             decide_mode();
@@ -79,11 +82,12 @@ public class game_fragment extends Fragment {
             Toast.makeText(this.getActivity(),"Enter Names!",Toast.LENGTH_SHORT).show();
     }
 
-    void decide_mode() {
+
+    void decide_mode() { // navigates by TIMER button on main menu
         if (!SharedPrefs.getInstance().isTIMER_MODE()) { // when timer is off
             if (dealer.getCardStack().size() == 52)
                 game_ON(true);
-            dealer.dealCards_toPlayers(leftPlayer,rightPlayer);
+            dealer.dealCardsToPlayers(leftPlayer,rightPlayer);
         } else // when timer is on
             requestCards_byTimer();
     }
@@ -114,7 +118,7 @@ public class game_fragment extends Fragment {
             handler.postDelayed(runnable, 1000);
             if(dealer.getCardStack().isEmpty())
                 handler.removeCallbacks(runnable);
-            dealer.dealCards_toPlayers(leftPlayer,rightPlayer); // runnable generates cards request every call
+            dealer.dealCardsToPlayers(leftPlayer,rightPlayer); // runnable generates cards request every call
         }
     };
 

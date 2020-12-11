@@ -1,46 +1,28 @@
 package com.example.warcards.objects;
 
-import android.annotation.SuppressLint;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
+import com.example.warcards.App;
 import com.example.warcards.R;
-import com.example.warcards.callBacks.mapCallBack;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-
+import com.example.warcards.fragments.map_fragment;
 import java.util.LinkedList;
 
 public class WinnersListAdapter extends RecyclerView.Adapter<WinnersListAdapter.WinnersListViewHolder> {
 
     View view;
 
-    private String date;
-
     private LinkedList<Winner> winnersList;
-
-    TypedArray profilePics;
 
     // ================================================================
 
     public WinnersListAdapter(LinkedList<Winner> winnersList){
         this.winnersList = winnersList;
-        refreshDate();
     }
 
     @NonNull
@@ -48,23 +30,21 @@ public class WinnersListAdapter extends RecyclerView.Adapter<WinnersListAdapter.
     public WinnersListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         view = layoutInflater.inflate(R.layout.winners_list_item, parent, false);
-        profilePics = view.getResources().obtainTypedArray(R.array.playerImages);
 
         return new WinnersListViewHolder(view);
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull WinnersListViewHolder holder, int position) {
         Winner winner = winnersList.get(position);
         holder.winner_position.setText("" + (position+1));
-        holder.winner_img.setImageResource(profilePics.getResourceId(winner.getImgIndex(),-1));
+        holder.winner_img.setImageResource(App.getProfilePics().getResourceId(winner.getImgIndex(),-1));
         holder.winner_name.setText("Name - " + winner.getName());
         holder.winner_score.setText("Score - " + winner.getScore());
-        holder.winner_date.setText(date);
+        holder.winner_date.setText(winner.getDate());
         holder.itemView.setOnClickListener(v -> {
-            // add here map location ping
-            Toast.makeText(view.getContext(),"Winner Clicked!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.getAppContext(),winner.getLocation().toString(),Toast.LENGTH_SHORT).show();
+            map_fragment.getMapCallBack().displayLocationOnMap(winner);
         });
     }
 
@@ -94,8 +74,4 @@ public class WinnersListAdapter extends RecyclerView.Adapter<WinnersListAdapter.
     }
 
     // ================================================================
-
-    void refreshDate(){
-        date = DateFormat.format(" dd.MM.yy - HH:mm ", System.currentTimeMillis()).toString();
-    }
 }

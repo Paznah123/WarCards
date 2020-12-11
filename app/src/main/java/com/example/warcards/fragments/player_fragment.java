@@ -1,9 +1,6 @@
 package com.example.warcards.fragments;
 
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +8,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
-import com.example.warcards.objects.Card;
+import com.example.warcards.App;
 import com.example.warcards.R;
+import com.example.warcards.objects.Card;
 import com.example.warcards.objects.Dealer;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class player_fragment extends Fragment {
-
-    private static final String TAG = "player_fragment";
 
     private View view;
 
@@ -56,10 +54,10 @@ public class player_fragment extends Fragment {
 
         findViews();
 
-        TypedArray profilePics = view.getResources().obtainTypedArray(R.array.playerImages);
-        this.playerImgArrIndex = rand.nextInt(profilePics.length() - 1);
-        setImgChangeListener(profilePics);
-        changePlayerImg(profilePics);
+        this.playerImgArrIndex = rand.nextInt(App.getProfilePics().length() - 1);
+
+        setImgChangeListener();
+        changePlayerImg();
 
         return view;
     }
@@ -73,18 +71,18 @@ public class player_fragment extends Fragment {
     }
 
     // change player img listener
-    private void setImgChangeListener(TypedArray images){
+    private void setImgChangeListener( ){
         playerImgArrIndex = 0;
         img.setOnClickListener(v -> {
             if (!gameRunning)
-                changePlayerImg(images);
+                changePlayerImg();
         });
     }
 
-    void changePlayerImg(TypedArray images){
-        img.setImageResource(images.getResourceId(playerImgArrIndex,-1));
+    void changePlayerImg(){
+        img.setImageResource(App.getProfilePics().getResourceId(playerImgArrIndex,-1));
 
-        if(playerImgArrIndex < images.length()-1)
+        if(playerImgArrIndex < App.getProfilePics().length()-1)
             playerImgArrIndex++;
         else
             playerImgArrIndex = 0;
@@ -97,23 +95,13 @@ public class player_fragment extends Fragment {
 
         // sets new card in imageView
         int img_id = view.getResources().getIdentifier("card_"+ randCard.getImageName(), "drawable", view.getContext().getPackageName());
-        Glide.with(this).load(img_id).into(dealer.getCardView_bySide(side));
+        Glide.with(this).load(img_id).transition(GenericTransitionOptions.with(R.anim.dealer_deal)).into(dealer.getCardView_bySide(side));
         currCard = randCard;
 
         return currCard.getValue();
     }
 
     //======================================================
-
-    // gets img bitmap
-    public byte[] getCurrImgByteArr(){
-        img.setDrawingCacheEnabled(true);
-        Bitmap playerImgBitmap = img.getDrawingCache();
-        ByteArrayOutputStream playerImgByteArr = new ByteArrayOutputStream();
-        playerImgBitmap.compress(Bitmap.CompressFormat.PNG, 50, playerImgByteArr);
-
-        return playerImgByteArr.toByteArray();
-    }
 
     // locks changes to img and name
     private void lockEditText() {

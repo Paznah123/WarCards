@@ -2,19 +2,19 @@ package com.example.warcards.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ToggleButton;
-import com.example.warcards.callBacks.IMainActivity;
+
+import androidx.fragment.app.Fragment;
+
 import com.example.warcards.R;
+import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.objects.SharedPrefs;
 
 public class selector_fragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = "SelectorFragment";
 
     private View view;
 
@@ -24,16 +24,11 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
 
     private ToggleButton timerToggle;
 
-    //public static boolean TIMER_MODE = false;
-
     // ================================================================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_selector, container, false);
-
-        if(savedInstanceState != null)
-            timerToggle.setChecked(savedInstanceState.getBoolean("TIMER_MODE"));
 
         findViews();
         setListeners();
@@ -50,9 +45,9 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
     void setListeners(){
         startGame.setOnClickListener(this);
         topScores.setOnClickListener(this);
-        timerToggle.setOnClickListener(v -> SharedPrefs.getInstance().reverseTimerMode());
-
+        timerToggle.setOnClickListener(v -> SharedPrefs.getInstance().invertTimerMode());
     }
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){

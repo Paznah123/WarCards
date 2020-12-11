@@ -1,29 +1,19 @@
 package com.example.warcards.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.warcards.R;
 import com.example.warcards.objects.SharedPrefs;
-import com.example.warcards.objects.Winner;
 import com.example.warcards.objects.WinnersListAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class list_fragment extends Fragment { // add winner list adding logic by score
-
-    private static final String TAG = "list_fragment";
 
     private View view;
 

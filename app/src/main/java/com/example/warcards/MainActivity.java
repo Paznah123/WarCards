@@ -1,14 +1,21 @@
 package com.example.warcards;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.bumptech.glide.Glide;
 import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.fragments.game_fragment;
@@ -19,13 +26,13 @@ import com.plattysoft.leonids.ParticleSystem;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
-    private static final String TAG = "MainActivity";
-
     private ImageView main_backGround;
 
     private MediaPlayer mp;
 
     private ParticleSystem ps;
+
+    private Location myLocation = new Location("G");
 
     // ================================================================
 
@@ -38,16 +45,24 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (ps != null)
+        if (ps != null) // stops particles after win
             ps.stopEmitting();
     }
 
     // ================================================================
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ActivityCompat.checkSelfPermission(App.getAppContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    44);
+        }
 
         hideSystemUI();
         findViews();
@@ -65,11 +80,12 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     // ================================================================
 
-    private void initFragment(){
+    private void initFragment(){ // puts first view in main activity container
         selector_fragment fragment = new selector_fragment();
         doFragmentTransaction(fragment, getString(R.string.SelectorFragment), false);
     }
 
+    // transfers between fragments
     private void doFragmentTransaction(Fragment fragment, String tag, boolean addToBackStack){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -84,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         transaction.commit();
     }
 
+    // creates new fragment for transaction
     @Override
     public void inflateFragment(String fragmentTag, boolean addToBackStack, Bundle bundle){
         Fragment fragment = new Fragment();
@@ -130,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     // ================================================================
 
+    // always call after view is measured!!! (if not particles emit on pixel [0,0])
     ParticleSystem emitParticles (int gravity, int particlesPerSecond, int maxParticles, int timeInSec){
         ParticleSystem ps = new ParticleSystem(this, maxParticles, R.drawable.animated_confetti, timeInSec*1000);
         ps.setAcceleration(0.00113f, 90)
