@@ -37,9 +37,7 @@ public class App extends Application {
 
     // ================================================================
 
-    void refreshDate(){
-        date = DateFormat.format(" dd.MM.yy - HH:mm ", System.currentTimeMillis()).toString();
-    }
+    void refreshDate(){ date = DateFormat.format(" dd.MM.yy - HH:mm ", System.currentTimeMillis()).toString(); }
 
     public static void toast(String msg){
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();

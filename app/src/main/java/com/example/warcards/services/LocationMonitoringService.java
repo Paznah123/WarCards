@@ -7,10 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-
 import com.example.warcards.App;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,17 +26,16 @@ public class LocationMonitoringService extends Service implements GoogleApiClien
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-       App.toast("SERVICE STARTED");
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
 
-        mLocationRequest.setInterval(30000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(60000);
+        mLocationRequest.setFastestInterval(10000);
 
-        int priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
+        int priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
 
         mLocationRequest.setPriority(priority);
         mLocationClient.connect();
@@ -61,11 +58,9 @@ public class LocationMonitoringService extends Service implements GoogleApiClien
 
     }
 
-    //to get the location change
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            App.toast("LOCATION FOUND");
             App.updateLocation(location);
         }
     }

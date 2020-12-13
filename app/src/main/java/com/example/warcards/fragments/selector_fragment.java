@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ToggleButton;
-
 import androidx.fragment.app.Fragment;
-
 import com.example.warcards.R;
 import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.objects.SharedPrefs;
@@ -45,7 +43,7 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
     void setListeners(){
         startGame.setOnClickListener(this);
         topScores.setOnClickListener(this);
-        timerToggle.setOnClickListener(v -> SharedPrefs.getInstance().invertTimerMode());
+        timerToggle.setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +54,8 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.topScores_button:
                 iMainActivity.inflateFragment(getString(R.string.TopScoresFragment), true, null);
+            case R.id.selector_timer_toggle:
+                SharedPrefs.getInstance().invertTimerMode();
         }
     }
 

@@ -1,22 +1,20 @@
 package com.example.warcards.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.example.warcards.App;
 import com.example.warcards.R;
 import com.example.warcards.objects.SharedPrefs;
 import com.example.warcards.objects.Winner;
+import com.example.warcards.services.LocationMonitoringService;
 
 public class winner_fragment extends Fragment{
-
-    private static final String TAG = "WinnerFragment";
 
     private View view;
 
@@ -35,6 +33,7 @@ public class winner_fragment extends Fragment{
 
         winnerMsg = getArguments().getString(SharedPrefs.KEYS.WINNER);
 
+        getActivity().stopService(new Intent(getContext(), LocationMonitoringService.class));
         findViews();
         addWinnerToList();
 

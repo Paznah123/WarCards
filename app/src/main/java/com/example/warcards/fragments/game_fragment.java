@@ -7,9 +7,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.warcards.App;
 import com.example.warcards.R;
 import com.example.warcards.objects.Dealer;
 import com.example.warcards.objects.SharedPrefs;
@@ -27,12 +29,6 @@ public class game_fragment extends Fragment {
     //====================================================
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().stopService(new Intent(getActivity(), LocationMonitoringService.class));
-    }
-
-    @Override
     public void onResume() { // resets any game progress
         super.onResume();
         if(dealer.getCardStack().isEmpty())
@@ -47,7 +43,7 @@ public class game_fragment extends Fragment {
 
         init_views();
 
-        dealer.getPlayButton().setOnClickListener(v -> { validate_play_click(); });
+        dealer.getPlayButton().setOnClickListener(v -> validate_play_click());
 
         onBackPressedListener();
 
@@ -79,7 +75,7 @@ public class game_fragment extends Fragment {
         if(!leftPlayer.getPlayerName().isEmpty() && !rightPlayer.getPlayerName().isEmpty())
             decide_mode();
         else
-            Toast.makeText(this.getActivity(),"Enter Names!",Toast.LENGTH_SHORT).show();
+            App.toast("Enter Names!");
     }
 
 

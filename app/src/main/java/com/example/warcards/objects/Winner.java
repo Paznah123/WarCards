@@ -2,7 +2,7 @@ package com.example.warcards.objects;
 
 import android.location.Location;
 
-public class Winner {
+public class Winner implements Comparable<Winner> {
 
     private String name;
     private int score;
@@ -20,6 +20,17 @@ public class Winner {
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
         this.date = date;
+    }
+
+    // ================================================================
+
+    @Override
+    public int compareTo(Winner otherWinner) {
+        if(this.getScore() > otherWinner.getScore())
+            return -1;
+        if(this.getScore() < otherWinner.getScore())
+            return 1;
+        return 0;
     }
 
     // ================================================================

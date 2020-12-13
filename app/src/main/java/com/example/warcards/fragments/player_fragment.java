@@ -48,6 +48,8 @@ public class player_fragment extends Fragment {
         this.gameRunning = false;
     }
 
+    //=============================================================================================================
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_player, container, false);
@@ -70,9 +72,10 @@ public class player_fragment extends Fragment {
         name = view.findViewById(R.id.fragment_player_editText);
     }
 
+    //=============================================================================================================
+
     // change player img listener
     private void setImgChangeListener( ){
-        playerImgArrIndex = 0;
         img.setOnClickListener(v -> {
             if (!gameRunning)
                 changePlayerImg();
@@ -82,11 +85,13 @@ public class player_fragment extends Fragment {
     void changePlayerImg(){
         img.setImageResource(App.getProfilePics().getResourceId(playerImgArrIndex,-1));
 
-        if(playerImgArrIndex < App.getProfilePics().length()-1)
+        if(playerImgArrIndex < App.getProfilePics().length())
             playerImgArrIndex++;
         else
             playerImgArrIndex = 0;
     }
+
+    //=============================================================================================================
 
     public int getCard_fromDealer(Dealer dealer) {
         ArrayList<Card> cardStack = dealer.getCardStack();

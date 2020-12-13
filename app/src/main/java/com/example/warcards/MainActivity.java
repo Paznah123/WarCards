@@ -1,15 +1,21 @@
 package com.example.warcards;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -48,22 +54,27 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     // ================================================================
 
-    @SuppressLint("MissingPermission")
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (ActivityCompat.checkSelfPermission(App.getAppContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                                    != PackageManager.PERMISSION_GRANTED) {
+        // check location permissions
+        if (ActivityCompat.checkSelfPermission(App.getAppContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    44);
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+
+        // check location enabled
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        if(!lm.isLocationEnabled())
+            showSettingAlert();
 
         hideSystemUI();
         findViews();
-        initFragment();
+        inflateFragment(getString(R.string.SelectorFragment), false, null);
 
         Glide
             .with(this)
@@ -71,24 +82,30 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
             .into(main_backGround);
     }
 
-    void findViews(){
-        main_backGround = findViewById(R.id.main_backGround);
-    }
-
     // ================================================================
 
-    private void initFragment(){ // puts first view in main activity container
-        selector_fragment fragment = new selector_fragment();
-        doFragmentTransaction(fragment, getString(R.string.SelectorFragment), false);
+    private void showSettingAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("GPS setting!");
+        alertDialog.setMessage("GPS is not enabled, Do you want to go to settings menu? ");
+        alertDialog.setOnCancelListener(dialog -> {
+            finish();
+        });
+        alertDialog.setPositiveButton("Setting", (dialog, which) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }).setNegativeButton("Cancel", (dialog, which) -> finish())
+                .show();
+    }
+
+    void findViews(){
+        main_backGround = findViewById(R.id.main_backGround);
     }
 
     // transfers between fragments
     private void doFragmentTransaction(Fragment fragment, String tag, boolean addToBackStack){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                R.anim.slide_in,
-                R.anim.slide_out
-                )
+                .setCustomAnimations(R.anim.slide_in,R.anim.slide_out)
                 .replace(R.id.main_container, fragment, tag);
 
         if(addToBackStack)
@@ -97,8 +114,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         transaction.commit();
     }
 
-    // creates new fragment for transaction
-    @Override
+    @Override // creates new fragment for transaction
     public void inflateFragment(String fragmentTag, boolean addToBackStack, Bundle bundle){
         Fragment fragment = new Fragment();
 

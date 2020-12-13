@@ -10,7 +10,7 @@ public class Card {
     public Card() { }
 
     public Card(String type, int value) {
-        this.imageName= type + value;
+        this.imageName = type + value;
         this.value = value;
     }
 

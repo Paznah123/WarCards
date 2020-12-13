@@ -9,4 +9,5 @@ public interface MapCallBack {
 
     LatLng latLngCreator(Winner winner);
 
+    void clearMap();
 }

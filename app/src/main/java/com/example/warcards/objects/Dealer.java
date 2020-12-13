@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import com.example.warcards.R;
 import com.example.warcards.callBacks.IMainActivity;
 import com.example.warcards.fragments.player_fragment;
-
 import java.util.ArrayList;
 
 public class Dealer {
