@@ -47,11 +47,13 @@ public class map_fragment extends Fragment  {
     private static MapCallBack mapCallBack = new MapCallBack() {
         @Override
         public void displayLocationOnMap(Winner winner){
-            LatLng latLng = latLngCreator(winner);
-            MarkerOptions markerOptions= new MarkerOptions();
-            markerOptions.position(latLng);
+            moveCamera(latLngCreator(winner));
+        }
+
+        @Override
+        public void moveCamera(LatLng latLng) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-            map.addMarker(markerOptions);
+            map.addMarker(new MarkerOptions().position(latLng));
         }
 
         @Override

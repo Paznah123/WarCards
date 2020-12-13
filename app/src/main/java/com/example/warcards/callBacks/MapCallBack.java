@@ -7,6 +7,8 @@ public interface MapCallBack {
 
     void displayLocationOnMap(Winner winner);
 
+    void moveCamera(LatLng latLng);
+
     LatLng latLngCreator(Winner winner);
 
     void clearMap();

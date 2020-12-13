@@ -32,9 +32,11 @@ public class topScores_fragment extends Fragment {
 
         delete_BTN.setOnClickListener(v -> {
             if(SharedPrefs.getInstance().removeWinner(nameEditText.getText().toString())){
-                list.updateWinnersListView();
-            } else
+                list.updateWinnersListView(); // if winner removed from list
+            } else {
                 nameEditText.setError("Name Not Found");
+                nameEditText.requestFocus();
+            }
         });
 
         putFragmentInView(R.id.map_right, map);

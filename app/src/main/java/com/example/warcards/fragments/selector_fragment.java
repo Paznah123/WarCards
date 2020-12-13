@@ -54,8 +54,10 @@ public class selector_fragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.topScores_button:
                 iMainActivity.inflateFragment(getString(R.string.TopScoresFragment), true, null);
+                break;
             case R.id.selector_timer_toggle:
                 SharedPrefs.getInstance().invertTimerMode();
+                break;
         }
     }
 

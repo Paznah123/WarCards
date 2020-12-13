@@ -85,7 +85,7 @@ public class player_fragment extends Fragment {
     void changePlayerImg(){
         img.setImageResource(App.getProfilePics().getResourceId(playerImgArrIndex,-1));
 
-        if(playerImgArrIndex < App.getProfilePics().length())
+        if(playerImgArrIndex < App.getProfilePics().length()-1)
             playerImgArrIndex++;
         else
             playerImgArrIndex = 0;
